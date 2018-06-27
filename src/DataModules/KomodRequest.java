@@ -1,6 +1,8 @@
 package DataModules;
 
-public class KomodRequest {
+import java.io.Serializable;
+
+public class KomodRequest implements Serializable {
 
     private static long numOfCodeRahgiri = 0;
     // ^ possible bug: vagthi narm azfar bazo baste mishe in shomare reset she.

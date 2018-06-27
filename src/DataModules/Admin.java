@@ -1,8 +1,9 @@
 package DataModules;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Admin {
+public class Admin implements Serializable {
     ArrayList<Komod> allKomods;
     ArrayList<KomodRequest> komodRequestsHayeBarresiNashode;
 
@@ -18,11 +19,15 @@ public class Admin {
         return null;
     }
 
-    void taghirVaziat(KomodRequest komodRequest, KomodRequest.Vaziat vaziat, boolean residegiShode, String newDescription){
+    void taghirVaziatKomodRequest(KomodRequest komodRequest, KomodRequest.Vaziat vaziat, boolean residegiShode, String newDescription){
 
     }
 
-    void tahvilKomod(Komod komod){
+    void tahvilGereftanKomod(Komod komod){
+
+    }
+
+    void ezafeKardaneEtelaat(){ //argument haye voroodi?
 
     }
 }

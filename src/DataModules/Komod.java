@@ -1,6 +1,8 @@
 package DataModules;
 
-public class Komod {
+import java.io.Serializable;
+
+public class Komod implements Serializable {
     private final int TEDAD_RADIF = 30;
     private final int TEDAD_KOMOD_DAR_HAR_RADIF = 16;
     private int[] id;
