@@ -52,4 +52,9 @@ public class Daneshjoo implements Serializable {
         return this.id.equals(((Daneshjoo) obj).id);
 
     }
+
+    @Override
+    public String toString() {
+        return "Daneshjoo, ID: " + this.getId() + ", Name: " + this.getName() + ", Number: " + this.getNumber();
+    }
 }

@@ -16,7 +16,7 @@ public class KomodRequest implements Serializable {
     private Date zamaneDarkhast;
 
 
-    KomodRequest( Daneshjoo requestingDaneshjoo){
+    public KomodRequest( Daneshjoo requestingDaneshjoo){
         this.requestingDaneshjoo = requestingDaneshjoo;
         this.residegiShode = false;
         this.vaziat = Vaziat.MOSHAHEDE_NASHODE;
@@ -26,6 +26,16 @@ public class KomodRequest implements Serializable {
     }
 
 
+    public static void setNumOfCodeRahgiri(long numOfCodeRahgiri) {
+        KomodRequest.numOfCodeRahgiri = numOfCodeRahgiri;
+    }
 
-    enum Vaziat{ MOSHAHEDE_NASHODE, TAEED, RAD, ENTEZAR}
+    enum Vaziat implements Serializable{ MOSHAHEDE_NASHODE, TAEED, RAD, ENTEZAR}
+
+
+    @Override
+    public String toString() {
+        return "RequestID: " + this.codeRahgiri + ",\n\t Daneshjoo: \n\t" + this.requestingDaneshjoo + "\n\t vaziat: " +
+                vaziat + "\n\t Tarikh:" + zamaneDarkhast;
+    }
 }

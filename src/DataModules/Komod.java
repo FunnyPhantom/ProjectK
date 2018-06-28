@@ -6,20 +6,19 @@ import java.util.ArrayList;
 public class Komod implements Serializable {
     private static final int TEDAD_RADIF = 30;
     private static final int TEDAD_KOMOD_DAR_HAR_RADIF = 16;
-    private int[] id;
+    private int radif;
+    private int shomare;
     private Daneshjoo owner;
 
-    Komod(int radif, int shomare){
-        this.id = new int[2];
-        this.id[0] = radif;
-        this.id[1] = shomare;
+    public Komod(int radif, int shomare){
+        this.radif = radif;
+        this.shomare = shomare;
         this.owner = Daneshjoo.KHALI;
     }
 
-    Komod(int radif, int shomare, Daneshjoo saheb){
-        this.id = new int[2];
-        this.id[0] = radif;
-        this.id[1] = shomare;
+    public Komod(int radif, int shomare, Daneshjoo saheb){
+        this.radif = radif;
+        this.shomare = shomare;
         this.owner = saheb;
     }
 
@@ -28,7 +27,7 @@ public class Komod implements Serializable {
         return owner;
     }
     public String getId() {
-        return id[0] + "-" + id[1];
+        return radif + "-" + shomare;
     }
 
 
@@ -40,5 +39,11 @@ public class Komod implements Serializable {
             kd.add(new Komod(radif, shomare));
         }
         return kd;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Komod: " + this.getId() + ",\n\tOwner: " + this.owner.toString();
     }
 }

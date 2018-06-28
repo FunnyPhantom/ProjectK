@@ -9,127 +9,95 @@ import java.util.ArrayList;
 public class IO {
     static File path = new File("Data/");
     static File komodData = new File(path, "komod-data.dat");
-    static ObjectOutputStream komodDataWriter;
-    static FileOutputStream komodDataOutput;
-    static ObjectInputStream komodDataReader;
-    static FileInputStream komodDataInput;
-
     static File requestData = new File(path, "request-data.dat");
-    static ObjectOutputStream requestDataWriter;
-    static FileOutputStream requestDataOutput;
-    static ObjectInputStream requestDataReader;
+    static ObjectOutputStream dataWriter;
+    static ObjectInputStream dataReader;
+
+
+    static FileOutputStream komodDataOutput;
+    static FileInputStream komodDataInput;
     static FileInputStream requestDataInput;
-
-    static void initilize(){
-        if(!komodData.exists()){
-            if (!path.exists()){
-                path.mkdirs();
-            }
-            try {
-                komodData.createNewFile();
-                saveKomodData(Komod.generateKomodData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(!requestData.exists()){
-            if (!path.exists()){
-                path.mkdirs();
-            }
-            try {
-                requestData.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    static FileOutputStream requestDataOutput;
 
 
-        if (komodDataOutput == null){
-            try {
-                komodDataOutput = new FileOutputStream(komodData);
-                komodDataWriter = new ObjectOutputStream(komodDataOutput);
-            } catch (IOException e) {
-                System.out.println("================Exception in IO.JAVA Line 23================================");
-                e.printStackTrace();
-            }
-        }
-        if (komodDataInput == null){
-            try {
-                komodDataInput = new FileInputStream(komodData);
-                komodDataReader = new ObjectInputStream(komodDataInput);
-            } catch (IOException e) {
-                System.out.println("================Exception in IO.JAVA Line 32================================");
-                e.printStackTrace();
-            }
-        }
 
-        if (requestDataOutput == null){
-            try {
-                requestDataOutput = new FileOutputStream(requestData,true);
-                requestDataWriter = new ObjectOutputStream(requestDataOutput);
-            } catch (IOException e) {
-                System.out.println("================Exception in IO.JAVA Line 72================================");
-                e.printStackTrace();
-            }
-        }
-        if (requestDataInput == null){
-            try {
-                requestDataInput = new FileInputStream(requestData);
-                requestDataReader = new ObjectInputStream(requestDataInput);
-            } catch (IOException e) {
-                System.out.println("================Exception in IO.JAVA Line 81================================");
-                e.printStackTrace();
-            }
-        }
-    }
-    static void saveKomodData(ArrayList<Komod> komods){
-        initilize();
+
+
+    public static void saveKomodData(ArrayList<Komod> komods){
         try {
-            komodDataWriter.writeObject(komods);
-            komodDataWriter.flush();
-            komodDataWriter.close();
+            komodData.createNewFile();
+            komodDataOutput = new FileOutputStream(komodData, false);
+            dataWriter = new ObjectOutputStream(komodDataOutput);
+            dataWriter.writeObject(komods);
+            dataWriter.flush();
+            dataWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    static ArrayList<Komod> readKomodData(){
-        initilize();
+    public static ArrayList<Komod> readKomodData(){
         try {
-            Object data = komodDataReader.readObject();
-            komodDataReader.close();
-                return ((ArrayList<Komod>) data);
-
+            if (komodData.createNewFile()){
+                ArrayList<Komod> kd = Komod.generateKomodData();
+                saveKomodData(kd);
+                return kd;
+            }
+            else {
+                komodDataInput = new FileInputStream(komodData);
+                dataReader = new ObjectInputStream(komodDataInput);
+                ArrayList<Komod> kd = ((ArrayList<Komod>) dataReader.readObject());
+                return kd;
+            }
         } catch (IOException e){
-            System.out.println("====");
             e.printStackTrace();
+            return null;
         } catch (ClassNotFoundException e){
-            System.out.println("======");
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
-    static void saveRequestData(KomodRequest kr){
-        initilize();
+    public static void saveRequestData(KomodRequest kr){
         try {
-            requestDataWriter.writeObject(kr);
-            requestDataWriter.flush();
-            requestDataWriter.close();
+            requestData.createNewFile();
+            ArrayList<KomodRequest> krs = readRequestData();
+            krs.add(kr);
+            KomodRequest.setNumOfCodeRahgiri(krs.size());
+            requestDataOutput = new FileOutputStream(requestData);
+            dataWriter = new ObjectOutputStream(requestDataOutput);
+            dataWriter.writeObject(krs);
+            dataWriter.flush();
+            dataWriter.close();
+
         } catch (IOException e){
             e.printStackTrace();
             System.out.println("va ajaba");
         }
     }
-    static ArrayList<KomodRequest> readRequestData(){
+    public static ArrayList<KomodRequest> readRequestData(){
         ArrayList<KomodRequest> ret = new ArrayList<>();
-        Object read;
-        while ((read = requestDataReader.readObject()) != null){
-            ret.add(((KomodRequest) read));
+        Object read = null;
+        try {
+            if (requestData.createNewFile()){
+                return ret;
+            }
+            else {
+                requestDataInput = new FileInputStream(requestData);
+                try {
+                    dataReader = new ObjectInputStream(requestDataInput);
+                } catch (EOFException e){
+                    return ret;
+                }
+                ArrayList<KomodRequest> krs = (ArrayList<KomodRequest>) dataReader.readObject();
+                KomodRequest.setNumOfCodeRahgiri(krs.size());
+                return (krs);
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+            return null;
         }
-        return ret;
     }
-
-
 }
 
