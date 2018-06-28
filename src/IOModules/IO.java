@@ -73,6 +73,22 @@ public class IO {
             System.out.println("va ajaba");
         }
     }
+    public static void saveRequestData(ArrayList<KomodRequest> kr){
+        try {
+            requestData.createNewFile();
+            KomodRequest.setNumOfCodeRahgiri(kr.size());
+            requestDataOutput = new FileOutputStream(requestData);
+            dataWriter = new ObjectOutputStream(requestDataOutput);
+            dataWriter.writeObject(kr);
+            dataWriter.flush();
+            dataWriter.close();
+
+        } catch (IOException e){
+            e.printStackTrace();
+            System.out.println("va ajaba");
+        }
+    }
+
     public static ArrayList<KomodRequest> readRequestData(){
         ArrayList<KomodRequest> ret = new ArrayList<>();
         Object read = null;
