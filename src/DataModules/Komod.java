@@ -46,4 +46,14 @@ public class Komod implements Serializable {
     public String toString() {
         return "Komod: " + this.getId() + ",\n\tOwner: " + this.owner.toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj instanceof Komod){
+            return (((Komod) obj).radif == this.radif && ((Komod) obj).shomare == this.shomare);
+        }
+        return false;
+    }
 }
