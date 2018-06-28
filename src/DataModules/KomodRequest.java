@@ -1,6 +1,7 @@
 package DataModules;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class KomodRequest implements Serializable {
 
@@ -8,19 +9,19 @@ public class KomodRequest implements Serializable {
     // ^ possible bug: vagthi narm azfar bazo baste mishe in shomare reset she.
     private long codeRahgiri;
 
-    private Komod requestedKomod;
     private Daneshjoo requestingDaneshjoo;
     private boolean residegiShode;
     private Vaziat vaziat;
     private String description;
+    private Date zamaneDarkhast;
 
 
-    KomodRequest(Komod requestedKomod, Daneshjoo requestingDaneshjoo){
-        this.requestedKomod = requestedKomod;
+    KomodRequest( Daneshjoo requestingDaneshjoo){
         this.requestingDaneshjoo = requestingDaneshjoo;
         this.residegiShode = false;
         this.vaziat = Vaziat.MOSHAHEDE_NASHODE;
         this.description = "-";
+        zamaneDarkhast = new Date();
         this.codeRahgiri = numOfCodeRahgiri++;
     }
 
